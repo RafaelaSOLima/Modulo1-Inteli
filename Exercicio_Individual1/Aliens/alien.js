@@ -37,7 +37,8 @@ function update() {
     alien.y = this.input.y;
    
     // Fazendo o aliem crescer de acordo com o plano cartesiano
-    alien.setScale(Math.abs(alien.y-h/2)/(h/1.5));
-    alien.setScale(Math.abs(alien.x-w/2)/(w/1.5));
+alien.setScale(Math.abs(alien.y-h/2)/(h/1.5));
+alien.setScale(Math.abs(alien.x-w/2)/(w/1.5));
+    
 }
 
