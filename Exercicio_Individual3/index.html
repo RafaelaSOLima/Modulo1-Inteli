@@ -1,0 +1,175 @@
+<CTYPE html>
+    <html lan!DOg="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Alien and Coins</title>
+        <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+
+            }
+        </style>
+    </head>
+
+    <body>
+        <script>
+
+            // Definindo a altura e largura do jogo
+            const larguraJogo = 700;
+            const alturaJogo = 880;
+
+            // colocando as constantes em uma lista e as imprimindo no console
+            let tamanhoJogo = [larguraJogo, alturaJogo];
+            console.log(tamanhoJogo)
+
+            // o que essa parte faz?
+            const config = {
+                type: Phaser.AUTO,
+                width: larguraJogo,
+                height: alturaJogo,
+
+                //ativando a fisica do jogo, tipo do jogo,  acionando a graviade e ativando os quadrados que mostram as forças e direçoes
+                physics: {
+                    default: 'arcade',
+                    arcade: {
+                        gravity: { y: 300 },
+                        debug: true
+                    }
+                },
+
+                // definindo as propiedades: carregar, criar e chamar/atualizar
+                scene: {
+                    preload: preload,
+                    create: create,
+                    update: update
+                }
+            };
+
+            //  criando o jogo em phaser e passando a variavel de configurações do jogo
+            const game = new Phaser.Game(config);
+
+            //criando variaveis
+            var alien;
+            var teclado;
+            var fire;
+            var wall;
+            var coin;
+            var pontos = -1;
+            var placar;
+
+
+            function preload() {
+
+                // carregando as imagens dos assets
+                this.load.image('fundo', 'assets/fundo.png');
+                this.load.image('alien', 'assets/alien.png');
+                this.load.image('fire', 'assets/fire.png');
+                this.load.image('wall', 'assets/wall.png');
+                this.load.image('coin', 'assets/coin.png');
+
+            }
+
+            function create() {
+                // Criando e posicionando a imagem de fundo
+                this.add.image(larguraJogo / 2, alturaJogo / 2, 'fundo');
+
+                //CRIANDO O FOGUINHO DO MODO TURBO
+                fire = this.add.sprite(1, 1, 'fire');
+                fire.setVisible(false);
+
+                //criando o alien e adicionando colisão com as bordas do jogo
+                alien = this.physics.add.sprite(larguraJogo / 2, 0, 'alien');
+                alien.setCollideWorldBounds(true);
+                // adicionando as funçoes do teclado no alien
+                teclado = this.input.keyboard.createCursorKeys();
+
+                //  criando as plataformas e adicionando colisão (aliene e plataformas)
+                wall = this.physics.add.staticImage(larguraJogo - 80, alturaJogo / 2, 'wall');
+                this.physics.add.collider(alien, wall);
+
+                wall2 = this.physics.add.staticImage(larguraJogo - 615, alturaJogo - 600, 'wall');
+                this.physics.add.collider(alien, wall2);
+
+                wall3 = this.physics.add.staticImage(larguraJogo / 2, alturaJogo / 2 + 160, 'wall');
+                this.physics.add.collider(alien, wall3);
+
+
+                // Criando as moedas, posicionando e adicionando fisica
+                coin = this.physics.add.sprite(larguraJogo / 2, 0, 'coin');
+                coin.setCollideWorldBounds(true);  //adicionando colisão com as bordas do jogo
+                coin.setBounce(0.9); //adicionando e ajustando a elasticidade 
+                //Criando colisão com as plataformas
+                this.physics.add.collider(coin, wall)
+                this.physics.add.collider(coin, wall2)
+                this.physics.add.collider(coin, wall3)
+
+                //adicionando placar
+                placar = this.add.text(50, 50, 'Moedas:' + pontos, { fontSize: '45px', fill: '#495613' });
+
+                //Interação entre moeda e alien
+                this.physics.add.overlap(alien, coin, function () {
+                    //moeda desaparece
+                    coin.setVisible(false);
+                    //sorteia e ajusta a posição da proxima moeda
+                    var posicaoCoin_Y = Phaser.Math.RND.between(50, 650);
+                    coin.setPosition(posicaoCoin_Y, 100);
+                    // soma a pontuação e atualiza o placar
+                    pontos += 1;
+                    placar.setText('Moedas:' + pontos);
+                    //aparece a nova moeda
+                    coin.setVisible(true);
+                });
+
+
+            }
+
+            function update() {
+            //Movimeto do alien de acordo com a configuração do teclado
+                //Movimento para a esquerda
+                if (teclado.left.isDown) {
+                    alien.setVelocityX(-500);
+                }
+
+                //Movimento para a direita
+                else if (teclado.right.isDown) {
+                    alien.setVelocityX(500);
+                }
+
+                //Movimento horizontal
+                else {
+                    alien.setVelocityX(0);
+                }
+
+                //Movimento para Cima e ativando o turbo
+                if (teclado.up.isDown) {
+                    alien.setVelocityY(-180);
+                    ativarTurbo()
+                }
+
+                //Movimento para Baixo na gravidade de Y e desativando o turbo
+                else { semTurbo() }
+
+                //atualiza o foguinho em relação a posição do alien
+                fire.setPosition(alien.x, alien.y + 60);
+
+                // criando a função para deixar o foguinho visivel
+                function ativarTurbo() {
+                    fire.setVisible(true);
+                }
+                // deixando o foguinho invisivel criando essa função
+                function semTurbo() {
+                    fire.setVisible(false);
+                }
+
+            }
+        </script>
+    </body>
+
+    </html>
