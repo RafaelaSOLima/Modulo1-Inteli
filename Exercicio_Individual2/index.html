@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <title>Exercício do Passaro</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+
+        var config = {
+            type: Phaser.AUTO,
+            width: 1000,
+            height: 730,
+
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        var game = new Phaser.Game(config);
+
+        var bird;
+        var vel = 5;
+        var frames = 16;
+
+        function preload() {
+            //  Trazendo a imagem de fundo e a nomenado
+            this.load.image('fundo', 'assets/fundo 2.jpg');
+
+            // Trazendo e nomenado o png das spintes. Separando as srpints com a Altura e largura do frame
+            this.load.spritesheet('bird', "assets/Passarinho_azul-removebg-preview (1).png", {
+                frameWidth: 132,
+                frameHeight: 88
+            });
+        }
+
+        function create() {
+            //Adicionando e editando o fundo e o sprite no site
+            this.add.image(400, 350, 'fundo').setScale(1.2);
+            bird = this.add.sprite(100, 300, 'bird').setScale(1.3);
+
+            // Criando uma animação, nomenado, dizendo a sprite 'Bird' e dizendo para repetir infinito '-1'
+            this.anims.create({
+                key: 'fly',
+                frames: this.anims.generateFrameNumbers('bird', { start: 0, end: 7 }),
+                frameRate: frames,
+                repeat: -1
+            });
+
+            //Adicionando a Animação
+            bird.anims.play('fly', true);
+            bird.idaY = true;
+        }
+
+        //Movimento do eixo X
+        function update() {
+            if (bird.x === 100) {
+                bird.setFlip(true, false);
+                bird.ida = true;
+            }
+
+            if (bird.x < 800 && bird.ida === true) {
+                console.log("O passaro inverte a direção");
+                bird.x += vel;
+            }
+
+            if (bird.x === 800) {
+                bird.setFlip(false, false);
+                bird.ida = false;
+            }
+
+            if (bird.x > 100 && bird.ida === false) {
+                console.log("O passaro reinverte a direção");
+                bird.x -= vel;
+            }
+
+            //Movimento do eixo Y
+
+            if (bird.y <= 100) {
+                bird.idaY = true;
+            }
+
+            while (bird.y < 650 && bird.idaY === true) {
+                bird.y += 1.5 * vel;
+                break;
+            }
+
+            if (bird.y >= 650) {
+                bird.idaY = false;
+            }
+
+            while (bird.y > 100 && bird.idaY === false) {
+                bird.y -= 1.5 * vel;
+                break;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
