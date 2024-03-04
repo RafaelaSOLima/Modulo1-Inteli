@@ -1,0 +1,212 @@
+<!doctype html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tsuru</title>
+        <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+
+        <style>
+            canvas {
+                border: 5px solid #d2327a;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script>
+            
+            let Variaveis 
+            //criando a variavel bird
+            var bird
+
+            // Cconfigurações do jogo
+            var config = {
+
+                type: Phaser.AUTO,
+                width: 600,
+                height: 810,
+                scale: {
+                    mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
+                    autoCenter: Phaser.Scale.CENTER_BOTH
+                },
+                physics: {
+                    default: 'arcade',
+                    arcade: {
+                        gravity: { y: 300 },
+                        debug: false,
+                    }
+                },
+                scene: {
+                    preload: preload,
+                    create: create,
+                    update: update
+                }
+            };
+            var game_obj = new Phaser.Game(config);
+
+            //Fundo 1
+            var a = {
+                x_start: 2000,
+                x: 2150,
+                y: 500,
+                x_end: -1670,
+                obj: null
+            }
+
+
+            //Fundo 2
+            var c = {
+                x_start: 2850,
+                x: 3000,
+                y: 500,
+                x_end: -2000,
+                obj: null
+            }
+
+
+
+            //Carregando imagens
+            function preload() {
+                this.load.image('a', 'Assets/3.png', { frameWidth: 500, frameHeight: 3000 });
+                this.load.image('c', 'Assets/5.png');
+                this.load.spritesheet('bird', 'Assets/bird.png', { frameWidth: 181, frameHeight: 130 });
+                this.load.image('paper', 'Assets/paper.png');
+                this.load.image('chao', 'Assets/chao.png');
+                this.load.image('ninho', 'Assets/ninho.png');
+            }
+
+            function create() {
+
+                //adicionando e formatando as imagens de fundo a e c
+
+                a.obj = this.add.image(400, 300, 'a');
+                a.obj.setScale(1.5);
+
+                c.obj = this.add.image(400, 300, 'c');
+                c.obj.setScale(2);
+
+                //adicionando cursores para o fundo
+                teclado = this.input.keyboard.createCursorKeys();
+
+                //criando o chão estatico como terceira camada
+                chao = this.physics.add.staticImage(200, 680, 'chao');
+                chao2 = this.physics.add.staticImage(680, 680, 'chao');
+    
+                // adicionando o passaro, criando fisica, colisão e colocando cursores.
+                bird = this.physics.add.sprite(100, 300, 'bird');
+                bird.setCollideWorldBounds(true);
+
+                teclado = this.input.keyboard.createCursorKeys();
+
+                //adicionando o pedaço de papel, sua fisica, colisão e elasticidade
+                paper = this.physics.add.sprite(0, 0, 'paper');
+                paper.setCollideWorldBounds(true);
+                paper.setBounce(0.8);
+
+                // Lógica do placar de pontuação
+                score = 0;
+                scoreText = this.add.text(200, 15, 'Papéis: ' + score, { fontSize: '32px', fill: '#000' });
+
+                
+                // criando a colisão e as consequencias do papel e passaro
+                this.physics.add.overlap(bird, paper, capturouPapel);
+
+            }
+
+            function capturouPapel() {
+                //papel desaparece
+                paper.setVisible(false);
+                //diminuir a gravidade
+                paper.setVelocityY(0);
+                //sorteia e ajusta a posição do proximo papel
+                var posicaoPaper_Y = Phaser.Math.RND.between(50, 650);
+                paper.setPosition(posicaoPaper_Y, 100);
+                paper.setVisible(true);
+                score += 1;
+            }
+
+            function update() {
+                scoreText.setText('Papéis: ' + score);
+
+                if (paper.y === (810 - paper.height / 2)) {
+                    //papel desaparece
+                    paper.setVisible(false);
+                    //diminuir a gravidade
+                    paper.setVelocityY(0);
+                    //sorteia e ajusta a posição do proximo papel
+                    var posicaoPaper_Y = Phaser.Math.RND.between(50, 650);
+                    paper.setPosition(posicaoPaper_Y, 100);
+                    paper.setVisible(true);
+                    if (score > 0) {
+                        score -= 1;
+                    }
+                }
+
+                if (score === 10) {
+                    this.scene.pause();
+                    finalText = this.add.text(100, 150, '  Parabéns!\nObrigado por\n  me ajudar\n a construir\n  meu ninho', { fontSize: '48px', fill: '#000' });
+                    this.add.image(300, 600, 'ninho').setScale(0.4);
+                }
+
+                //Repetição do fundo
+                if (a.x < a.x_end) {
+                    a.x = a.x_start;
+                }
+                a.obj.x = a.x;
+
+
+                if (c.x < c.x_end) {
+                    c.x = c.x_start;
+                }
+                c.obj.x = c.x;
+
+
+                
+                // Movimento para a esquerda
+                if (teclado.left.isDown) {
+                    bird.setVelocityX(-100);
+                }
+
+                //Movimento para a direita
+                else if (teclado.right.isDown) {
+                    bird.setVelocityX(100);
+                    a.x -= 5;
+                    // b.x -= 3;
+                    c.x -= 1.5;
+
+                }
+
+                //caso nenhuma tecla seja apertada
+                else {
+                    bird.setVelocityX(0);
+
+                }
+
+
+                //flutuação do passaro com tecla de espaço
+                if (teclado.space.isDown || teclado.up.isDown) {
+                    bird.setVelocityY(-100)
+                    bird.anims.play('fly', true)
+
+
+                }
+
+
+
+                //Criando a animação voar
+                this.anims.create({
+                    key: 'fly',
+                    frames: this.anims.generateFrameNumbers('bird', { start: 0, end: 5 }),
+                    frameRate: 13,
+                    repeat: 1
+                });
+
+
+
+            }
+        </script>
+    </body>
+
+    </html>
