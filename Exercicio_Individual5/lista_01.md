@@ -31,6 +31,9 @@ c) Imprime os números pares de 2 a 10.
 
 d) Imprime os números ímpares de 2 a 10.
 
+
+RESPOSTA: a) Imprime os números pares de 1 a 10.
+
 ______
 
 **2)** Identificar a linha que falta no código para criar uma classe Veiculo com atributo marca, e uma classe Carro que herda de Veiculo com um método ligar(). 
@@ -46,6 +49,8 @@ B) let ligar = new ligar("Toyota");
 C) class Moto extends Veiculo {};
 
 D) carro1.ligar();
+
+RESPOSTA: A) let carro = new Carro("Toyota");
 
 ______
 
@@ -63,6 +68,7 @@ C) 14
 
 D) 12
 
+RESPOSTA: A) 18
 ______
 
 **4)** Como você criaria um método `acelerar()` em uma classe `Carro`, que recebe um parâmetro `velocidade` e o adiciona a um atributo `velocidadeAtual`?
@@ -75,6 +81,9 @@ C) ![Uma imagem](assets/ex04_3.PNG)
 
 D) ![Uma imagem](assets/ex04_4.PNG)
 
+
+RESPOSTA: A)
+
 ______
 
 **5)** Qual a forma correta de definir uma classe Carro em JavaScript, com um método ligar() e um atributo marca?
@@ -86,6 +95,9 @@ B) ![Uma imagem](assets/ex05_2.PNG)
 C) ![Uma imagem](assets/ex05_3.PNG)
 
 D) ![Uma imagem](assets/ex05_4.PNG)
+
+
+RESPOSTA: A)
 
 ______
 
@@ -102,6 +114,8 @@ B) "Olá, meu nome é ."
 C) "João Maria"
 
 D) "undefined undefined"
+
+RESPOSTA: A) "Olá, meu nome é João. Olá, meu nome é Maria."
 
 ______
 
