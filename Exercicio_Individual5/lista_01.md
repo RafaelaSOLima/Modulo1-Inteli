@@ -247,7 +247,33 @@ Chamando o Método para Ver o Total:
 
 Dica: Utilize console.log() para exibir as informações!
 
+```javascript
+//criandoa classe ```
+class SomadorDeNotas {
+    constructor() {
+        this.total = 0;
+    }
 
+    adicionarNota(nota) {
+        this.total += nota;
+    }
+
+    verTotal() {
+        console.log('A somatoria das suas notas é:' +this.total);
+    }
+}
+
+// Criando um objeto da classe SomadorDeNotas
+const somador = new SomadorDeNotas();
+
+// Adicionar notas ao somador
+somador.adicionarNota(7);
+somador.adicionarNota(8.5);
+somador.adicionarNota(6);
+
+// Chamando o método para ver o total das notas
+somador.verTotal(); 
+```
 ______
 
 **10)** Imagine que você está criando um programa em JavaScript para uma escola. Neste programa, existem diferentes tipos de funcionários, cada um com suas próprias características. Considere as seguintes classes:
