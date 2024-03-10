@@ -32,7 +32,8 @@ c) Imprime os números pares de 2 a 10.
 d) Imprime os números ímpares de 2 a 10.
 
 
-RESPOSTA: a) Imprime os números pares de 1 a 10.
+RESPOSTA: a) Imprime os números pares de 1 a 10. ou c)Imprime os números pares de 2 a 10. 
+
 
 ______
 
