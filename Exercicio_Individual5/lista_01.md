@@ -186,7 +186,46 @@ Chamando os Métodos:
 
 Dica: Utilize console.log() para exibir as informações!
 
+```javascript
+ ```
+class Animal {
+    constructor(nome, idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
 
+    descrever() {
+        console.log('O animal ' + this.nome + ' tem ' + this.idade + ' anos de idade.');
+    }
+}
+
+class Gato extends Animal {
+    constructor(nome, idade, cor) {
+        super(nome, idade);
+        this.cor = cor;
+    }
+
+    descrever() {
+        console.log('O animal ' + this.nome + ' tem ' + this.idade + ' anos de idade e tem a cor: ' + this.cor);
+    }
+
+    miar() {
+        console.log("Miau!");
+    }
+}
+
+// Criando objetos da classe Animal
+const cachorro = new Animal('Cachorro', 8);
+const gato = new Gato('Gato', 12, 'Laranja');
+
+// Chamando o método descrever() para cada animal
+cachorro.descrever(); 
+gato.descrever(); 
+
+
+// Chamando o método miar() para o gato
+miar.som();
+```
 ______
 
 **9)** Vamos criar um programa em JavaScript para somar notas!
