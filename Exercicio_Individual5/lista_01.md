@@ -292,5 +292,40 @@ Professor (herança de Funcionário):
 Agora, sua tarefa é escrever um código em JavaScript que crie as classes Funcionário e Professor, com suas características e métodos descritos acima. Depois de criar as classes, crie:
 - Dois objetos do tipo Professor com informações fictícias.
 - Para cada objeto, chame o método calcularSalario() e mostre o salário calculado no console.
+```javascript
+//esta aqui com ```
+class Funcionario {
+    constructor(nome, idade, salarioBase) {
+        this.nome = nome;
+        this.idade = idade;
+        this.salarioBase = salarioBase;
+    }
 
+calcularSalario() {
+    
+}
+}
+
+class Professor extends Funcionario {
+constructor(nome, idade, salarioBase, disciplina, horasAulaSemana) {
+    super(nome, idade, salarioBase);
+    this.disciplina = disciplina;
+    this.horasAulaSemana = horasAulaSemana;
+}
+
+calcularSalario() {
+    const valorHoraAula = 50; // Valor hipotético da hora/aula
+    const salario = this.horasAulaSemana * valorHoraAula;
+    console.log('O salário do professor' + this.nome + 'é R$:' + salario + '.');
+}
+}
+
+// Criando dois objetos do tipo Professor
+const professor1 = new Professor(' Richard', 35, 3000, 'Matemática', 20);
+const professor2 = new Professor(' Tanus ', 40, 1000, 'Destruição', 10);
+
+// Chamando o método calcularSalario() para cada professor
+professor1.calcularSalario();
+professor2.calcularSalario();
+```
 Certifique-se de explicar cada parte do código utilizando comentários, explicando para que serve cada atributo e método, bem como a lógica por trás do cálculo de salário para o tipo de funcionário Professor.
