@@ -187,7 +187,7 @@ Chamando os Métodos:
 Dica: Utilize console.log() para exibir as informações!
 
 ```javascript
- ```
+// craindo a classe ```
 class Animal {
     constructor(nome, idade) {
         this.nome = nome;
