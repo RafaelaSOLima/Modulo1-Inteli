@@ -136,10 +136,28 @@ Criando e manipulando Animais:
 Dica: Utilize `console.log()` para exibir as informações!
 
 ```javascript
-//esta aqui com ```
-let a = "olá"
-let b = 10
-print(a)
+//Classe animal e seus atributos ```
+class Animal {
+    constructor(nome, idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+
+    //metodo descrever
+    descrever() {
+        console.log('O animal ' + this.nome + ' tem ' + this.idade + ' anos de idade.');
+    }
+}
+
+// Criando objetos da classe Animal
+const cachorro = new Animal('Cachorro', 8);
+const gato = new Animal('Gato', 12);
+
+//imprimindo 
+cachorro.descrever();
+gato.descrever();
+
+
 ```
 
 ______
